@@ -3,9 +3,15 @@
 #include <time.h>
 #include <PubSubClient.h>
 #include "secrets.h"
+#include <OneWire.h>
+#include <DallasTemperature.h>
 
 #define DEVICE_ID "1"
-#define INTERVAL 10000
+#define INTERVAL 3000
+
+const int oneWireBus = 0; 
+OneWire oneWire(oneWireBus);
+DallasTemperature sensors(&oneWire);
 
 BearSSL::WiFiClientSecure net;
 PubSubClient client(net);
@@ -14,8 +20,6 @@ time_t now;
 unsigned long lastMillis = 0;
 
 char hostname[21];
-
-int sensorPin = A0; 
 
 void mqtt_connect()
 {
@@ -37,10 +41,14 @@ void mqtt_connect()
 
 void setup()
 {
-  String strHostname = "cxt-heatmap-sensor-" + String(DEVICE_ID);
+  //analogReference(INTERNAL);
+  /*String strHostname = "cxt-heatmap-sensor-" + String(DEVICE_ID);
   int hostname_lenght = strHostname.length() + 1;
-  strHostname.toCharArray(hostname, hostname_lenght);
+  strHostname.toCharArray(hostname, hostname_lenght);*/
+  
   Serial.begin(9600);
+
+  sensors.begin();
   Serial.println();
   Serial.println();
   Serial.print("Attempting to connect to SSID: ");
@@ -104,22 +112,15 @@ void loop()
 
   if (millis() - lastMillis > INTERVAL) {
     lastMillis = millis();
-    Serial.println("Reporting temperature");
-    int reading = analogRead(sensorPin);         // Den Signalausgang des Temperatursensors lesen 
-    float voltage = reading * 5.0;               // Umwandlung der Messung in mV
-    voltage /= 1024.0; 
-  
-    Serial.print("Gemessene Spannung: ");
-    Serial.print(voltage);                       // Ausgabe der gemessenen Spannung in mV
-    Serial.print(" mV;\t"); 
-    float temperatureC = (voltage - 0.5) * 100 ; // Umrechnung der Spannung in C°
-    Serial.print("Gemessene Temperatur: ");
-    Serial.print(temperatureC);                  // Ausgabe der berechneten Temperatur in °C
-    Serial.println(" °C");
+
+    sensors.requestTemperatures(); 
+    float temperatureC = sensors.getTempCByIndex(0);
+
     String jsonData = String("{\"id\":\""+String(DEVICE_ID)+"\", \"temp\": \""+String(temperatureC)+"\"}");
+    Serial.println(jsonData);
     int data_len = jsonData.length() + 1;
     char payload[data_len];
     jsonData.toCharArray(payload, data_len);
-    client.publish("cxtTest", payload, false);
+    client.publish("cxt", payload, false);
   }
 }
