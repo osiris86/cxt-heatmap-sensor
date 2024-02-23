@@ -43,5 +43,5 @@ void MQTT::report(float temperatureC) {
   int data_len = jsonData.length() + 1;
   char payload[data_len];
   jsonData.toCharArray(payload, data_len);
-  client.publish("cxt", payload, false);
+  client.publish("cxtTest", payload, false);
 }
