@@ -6,9 +6,9 @@ class MQTT {
     BearSSL::WiFiClientSecure net;
     PubSubClient client;
     char hostname[21];
-    char* deviceId;
+    String deviceId;
   public:
-    MQTT(char* lDeviceId);
+    MQTT(String lDeviceId);
     void init();
     void connect();
     void keepAlive();

@@ -3,7 +3,7 @@
 #include <PubSubClient.h>
 #include "secrets.h"
 
-MQTT::MQTT(char* lDeviceId) : client(net) { 
+MQTT::MQTT(String lDeviceId) : client(net) { 
   deviceId = lDeviceId;
 }
 
@@ -42,7 +42,7 @@ void MQTT::keepAlive() {
 }
 
 void MQTT::report(float temperatureC) {
-  String jsonData = String("{\"id\":\""+String(deviceId)+"\", \"temp\": \""+String(temperatureC)+"\"}");
+  String jsonData = String("{\"id\":\""+deviceId+"\", \"temp\": \""+String(temperatureC)+"\"}");
   Serial.println(jsonData);
   int data_len = jsonData.length() + 1;
   char payload[data_len];

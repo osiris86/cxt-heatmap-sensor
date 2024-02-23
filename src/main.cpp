@@ -3,16 +3,14 @@
 #include <time.h>
 #include <PubSubClient.h>
 #include "secrets.h"
-#include <OneWire.h>
-#include <DallasTemperature.h>
 #include "MQTT.h"
+#include "TemperatureSensor.h"
 
 #define DEVICE_ID "1"
 #define INTERVAL 3000
+#define ONE_WIRE_BUS 0
 
-const int oneWireBus = 0;
-OneWire oneWire(oneWireBus);
-DallasTemperature sensors(&oneWire);
+TemperatureSensor tempSensor(ONE_WIRE_BUS);
 MQTT mqttClient(DEVICE_ID);
 
 time_t now;
@@ -22,14 +20,8 @@ char hostname[21];
 
 void setup()
 {
-  //analogReference(INTERNAL);
-  /*String strHostname = "cxt-heatmap-sensor-" + String(DEVICE_ID);
-  int hostname_lenght = strHostname.length() + 1;
-  strHostname.toCharArray(hostname, hostname_lenght);*/
-  
   Serial.begin(9600);
 
-  sensors.begin();
   Serial.println();
   Serial.println();
   Serial.print("Attempting to connect to SSID: ");
@@ -83,9 +75,6 @@ void loop()
   if (millis() - lastMillis > INTERVAL) {
     lastMillis = millis();
 
-    sensors.requestTemperatures(); 
-    float temperatureC = sensors.getTempCByIndex(0);
-
-    mqttClient.report(temperatureC);
+    mqttClient.report(tempSensor.getTemperature());
   }
 }
