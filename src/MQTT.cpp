@@ -15,8 +15,7 @@ void MQTT::init() {
   connect();
 }
 
-void MQTT::connect()
-{
+void MQTT::connect() {
   while (!client.connected()) {
     if (client.connect(hostname, SECRET_MQTT_USER, SECRET_MQTT_PASS)) {
       Serial.println("connected.");
@@ -31,12 +30,9 @@ void MQTT::connect()
 }
 
 void MQTT::keepAlive() {
-  if (!client.connected())
-  {
+  if (!client.connected()) {
     connect();
-  }
-  else
-  {
+  } else {
     client.loop();
   }
 }

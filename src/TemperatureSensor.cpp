@@ -1,7 +1,6 @@
-#include "TemperatureSensor.h";
+#include "TemperatureSensor.h"
 
-TemperatureSensor::TemperatureSensor(int bus) : oneWire(bus), sensors(&oneWire) { 
-}
+TemperatureSensor::TemperatureSensor(int bus) : oneWire(bus), sensors(&oneWire) { }
 
 void TemperatureSensor::init() {
   sensors.begin();
