@@ -7,7 +7,7 @@
 #include "Wireless.h"
 
 #define DEVICE_ID "1"
-#define INTERVAL 3000
+#define INTERVAL 300000
 #define ONE_WIRE_BUS 0
 
 TemperatureSensor tempSensor(ONE_WIRE_BUS);
