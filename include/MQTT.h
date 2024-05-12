@@ -3,7 +3,7 @@
 
 class MQTT {
   private:
-    BearSSL::WiFiClientSecure net;
+    WiFiClient net;
     PubSubClient client;
     char hostname[21];
     String deviceId;

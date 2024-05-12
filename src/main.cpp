@@ -12,7 +12,7 @@
 
 TemperatureSensor tempSensor(ONE_WIRE_BUS);
 MQTT mqttClient(DEVICE_ID);
-Wireless wifi("cxt-heatmap-sensor-" + String(DEVICE_ID), SECRET_SSID, SECRET_PASS);
+Wireless wifi("cxt-heatmap-sensor-" + String(DEVICE_ID), SECRET_SSID);
 
 time_t now;
 unsigned long lastMillis = 0;

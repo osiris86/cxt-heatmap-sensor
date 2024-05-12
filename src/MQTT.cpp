@@ -1,5 +1,4 @@
 #include "MQTT.h"
-#include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 #include "secrets.h"
 
@@ -8,9 +7,6 @@ MQTT::MQTT(String lDeviceId) : client(net) {
 }
 
 void MQTT::init() {
-  BearSSL::X509List cert(digicert);
-  net.setTrustAnchors(&cert);
-
   client.setServer(SECRET_MQTT_SERVER, SECRET_MQTT_PORT);
   connect();
 }
