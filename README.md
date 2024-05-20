@@ -11,6 +11,7 @@ Um zu analysieren wie sich die Temperaturen über das LAN-Party-Wochenende entwi
 - [cxt-heatmap](https://github.com/osiris86/cxt-heatmap)
 - [cxt-heatmap-fe](https://github.com/osiris86/cxt-heatmap-fe)
 - cxt-heatmap-sensor (dieses Repository)
+- [cxt-heatmap-data](https://github.com/osiris86/cxt-heatmap-data)
 
 <p align="center">
 <img src="img/example.png" alt="Heatmap Beispiel" />
