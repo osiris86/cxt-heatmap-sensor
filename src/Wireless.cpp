@@ -1,9 +1,10 @@
 #include <ESP8266WiFi.h>
 #include "Wireless.h"
 
-Wireless::Wireless(String lHostname, String lSsid) {
+Wireless::Wireless(String lHostname, String lSsid, String lPass) {
   hostname = lHostname;
   ssid = lSsid;
+  pass = lPass;
 }
 
 void Wireless::connect() {
@@ -11,7 +12,7 @@ void Wireless::connect() {
   Serial.print(ssid);
   WiFi.hostname(hostname);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid);
+  WiFi.begin(ssid, pass);
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(1000);
